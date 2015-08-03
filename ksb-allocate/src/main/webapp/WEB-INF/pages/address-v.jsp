@@ -13,10 +13,10 @@
 <title>快送宝 地址验证</title>
 
 <link
-	href="${pageContext.request.contextPath}/css/bootstrap/bootstrap.min.css"
+	href="/css/bootstrap/bootstrap.min.css"
 	rel="stylesheet">
 <script
-	src="${pageContext.request.contextPath}/js/jquery/jquery-2.1.4.min.js"></script>
+	src="/js/jquery/jquery-2.1.4.min.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(function() {
