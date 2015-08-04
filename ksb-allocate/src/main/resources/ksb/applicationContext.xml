@@ -23,6 +23,7 @@
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
+	
 	<context:annotation-config />
 	<bean id="dbConfPostProcessor"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

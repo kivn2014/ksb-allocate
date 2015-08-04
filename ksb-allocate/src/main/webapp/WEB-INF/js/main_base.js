@@ -65,9 +65,13 @@
 		
 		var ids = chk_value.join("^");
 		
-		$.post("/allocate/query_courier", {
-			work_status:1
-		}, function(cdata) {
+		$.ajax({type:"POST",url:"/allocate/query_courier", data:{work_status:1,'timestamp':new Date().getTime()},contentType:"application/x-www-form-urlencoded;charset=utf-8", success:function(cdata,status,jqXHR) {
+			var sessionstatus=jqXHR.getResponseHeader("sessionstatus");
+	        if(sessionstatus=="timeout"){
+	        	 alert("登录超时,请重新登录!");
+	             location.href="login";
+	        	 return;
+	        } 
 			var containerBody = $("#courierListId").empty();
 			var htm = "";
 			cdata = $.parseJSON(cdata);
@@ -108,7 +112,11 @@
 				containerBody.html("<tr><td colspan='4'>未查询到数据<td></tr>");
 			}
 
-		});
+		},error:function(){
+			alert("操作异常");
+//            location.href="login";
+       	    return;
+		}});
 	}
 	
 	
@@ -132,14 +140,22 @@
 			}
 		}
 		
-		$.post("/allocate/query_waybill", {
+		$.ajax({type:"POST", url:"/allocate/query_waybill", data:{
 			'status' : '2',
 			'page':target_page,
-			'size':'10'
-		}, function(data) {
+			'size':'10',
+			'timestamp':new Date().getTime()
+		}, contentType:"application/x-www-form-urlencoded;charset=utf-8",success:function(data,status,jqXHR) {
+			var sessionstatus=jqXHR.getResponseHeader("sessionstatus");
+	        if(sessionstatus=="timeout"){
+	        	 alert("登录超时,请重新登录!");
+	             location.href="login";
+	        	 return;
+	        } 
 			var containerBody = $("#bodyid").empty();
 			var htm = "";
 			data = $.parseJSON(data);
+
 			s = data.success;
 			if (!s) {//查询失败
 				alert(data.errors);
@@ -156,6 +172,7 @@
 					var html="<input type='checkbox' name='wbids' value="+n.id+">";
 					var mapButton = "<button type='button'  class='btn btn-default' data-target='#addModal'>";
 					$("<tr/>").append($("<td/>").append(html)).append($("<td/>").append(n.create_time)).append(
+							$("<td/>").append(n.id)).append(
 							$("<td/>").append(n.shipper_name)).append(
 							$("<td/>").append(n.shipper_address+"-"+n.shipper_address_detail)).append(
 							$("<td/>").append(n.buyer_address)).append(
@@ -174,6 +191,10 @@
 			} else {
 				containerBody.html("<tr><td colspan='8'>未查询到数据<td></tr>");
 			}
-		});
+		},error:function(){
+           // location.href="login";
+			alert("操作异常");
+       	    return;
+		}});
 
 	}

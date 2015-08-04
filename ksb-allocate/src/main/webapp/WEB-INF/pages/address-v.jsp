@@ -20,23 +20,26 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-
+        var cityName = $("#fromCity").val();
 		$('#search_from_suggest').bind('input', function() {
-
+			 
 			var ad = $("#from_address_suggest").get(0).value;
-
-			var a = '/openapi/bd_address?address=' + encodeURIComponent(ad)
+            
+			var a = '/sp/bd_address?city_name='+encodeURIComponent(cityName)+'&address=' + encodeURIComponent(ad)
 
 			$.get(a, {}, function(data) {
 				var containerBody = $("#address-select").empty();
 				var htm = "";
 				data = $.parseJSON(data);
-
+                var mg = data.message;
+                if(mg!='ok'){
+                	return;
+                }
 				result = data.result;
 
 				$.each(result, function(i, n) {
 
-					htm += "<option>" + n.name + "</option>"
+					htm += "<option>" +n.city+'-'+n.district+'-'+ n.name + "</option>"
 
 				});
 
@@ -60,7 +63,16 @@
 					<strong>建议：输入相关的地址，从系统下拉地址里选择选择</strong>
 				</h5>
 				<div id="from_address_selector">
+				    <div>                                        
+				        <select id="fromCity" class="from-address-info-city">
+                               <option selected="selected" value="广州市" data-name="广州市">广州市</option>
+                               <option  value="东莞市" data-name="东莞市">东莞市</option>
+                               <option  value="济南市" data-name="济南市">济南市</option>
+                               <option  value="深圳市" data-name="深圳市">深圳市</option>
+                               <option  value="北京市" data-name="北京市">北京市</option>
+                       </select></div><br/>
 					<div class="input-group col-xs-12 col-sm-4 col-md-4 col-lg-4">
+					    
 						<input class="form-control" type="text" autocomplete="off"
 							placeholder="输入您所在的大厦名称或周边标志性建筑" name="from_address_suggest"
 							id="from_address_suggest" /> <span class="input-group-btn"></span>

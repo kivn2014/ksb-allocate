@@ -101,13 +101,19 @@ public class SpController {
 	}
 
 	@RequestMapping("/bd_address")
-	public @ResponseBody String validateAddressByDBMap(String address) {
+	public @ResponseBody String validateAddressByDBMap(String address,String city_name) {
 
+		String returnRs = "{\"status\":0,\"message\":\"er\"}";
+		if(StringUtils.isBlank(address)){
+			return returnRs;
+		}
+		if(StringUtils.isBlank(city_name)){
+		   city_name="全国";
+		}
+		
 		String addressEncode = java.net.URLEncoder.encode(address);
-		String bdUrl = "http://api.map.baidu.com/place/v2/suggestion?region=131&output=json&ak=zNC2uIzYGKnY3V8D7iCBbLsi&query="
+		String bdUrl = "http://api.map.baidu.com/place/v2/suggestion?region="+city_name+"&output=json&ak=zNC2uIzYGKnY3V8D7iCBbLsi&query="
 				+ addressEncode;
-
-		String returnRs = null;
 		try{
 		returnRs = HTTPUtils.executeGet(bdUrl).getObj().toString();
 		}catch(Exception e){

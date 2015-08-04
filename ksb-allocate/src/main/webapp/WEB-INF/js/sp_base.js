@@ -53,12 +53,18 @@
 		
 		var realName=$("#c_real_name").val();
 		var phone=$("#c_phone").val();
-		$.post("/allocate/query_courier", {
+		$.ajax({type:'POST',url:"/allocate/query_courier", data:{
 			'real_name' : realName,
 			'phone':phone,
 			'page':1,
 			'size':'100000'
-		}, function(data) {
+		}, contentType:"application/x-www-form-urlencoded;charset=utf-8",success:function(data,status,jqXHR) {
+			var sessionstatus=jqXHR.getResponseHeader("sessionstatus");
+	        if(sessionstatus=="timeout"){
+	        	 alert("登录超时,请重新登录!");
+	             location.href="login";
+	        	 return;
+	        } 
 			data = $.parseJSON(data);
 			s = data.success;
 			if (!s) {//查询失败
@@ -90,7 +96,10 @@
 				alert("未查询到匹配的配送员");
 			}
 
-		});	   
+		},error:function(){
+			alert("操作异常");
+			return;
+		}});	   
 	   
 	   
 	}
@@ -230,12 +239,18 @@ function open_sp_tip(){
 	
    function do_save_sp(spName,spUser,spPasswd,spPhone){
 		
-		$.post("/sp/save_sp", {
+	   $.ajax({type:'POST',url:"/sp/save_sp", data:{
 			sp_name:spName,
 			name:'sp',
 			passwd:spPasswd,
 			phone:spPhone
-		}, function(cdata) {
+		}, contentType:"application/x-www-form-urlencoded;charset=utf-8",success:function(cdata,status,jqXHR) {
+			var sessionstatus=jqXHR.getResponseHeader("sessionstatus");
+	        if(sessionstatus=="timeout"){
+	        	 alert("登录超时,请重新登录!");
+	             location.href="login";
+	        	 return;
+	        } 
 			cdata = $.parseJSON(cdata);
 			s = cdata.success;
 			if (!s) {//查询失败
@@ -247,15 +262,21 @@ function open_sp_tip(){
 //				search_sp(0);
 				close_sp_tip();
 			}
-		});
+		}});
 	}
    function do_save_courier(realName,passwd,phone){
 		
-		$.post("/allocate/save_courier", {
+	   $.ajax({type:'POST',url:"/allocate/save_courier", data:{
 			real_name:realName,
 			pwd:passwd,
 			phone:phone
-		}, function(cdata) {
+		}, contentType:"application/x-www-form-urlencoded;charset=utf-8",success:function(cdata,status,jqXHR) {
+			var sessionstatus=jqXHR.getResponseHeader("sessionstatus");
+	        if(sessionstatus=="timeout"){
+	        	 alert("登录超时,请重新登录!");
+	             location.href="login";
+	        	 return;
+	        } 
 			cdata = $.parseJSON(cdata);
 			s = cdata.success;
 			if (!s) {//查询失败
@@ -267,7 +288,7 @@ function open_sp_tip(){
 //				search_sp(0);
 				close_courier_tip();
 			}
-		});
+		}});
 	}	
 	function clearAdd(){
 		$(".optDiv").find("input").each(function(){
@@ -298,11 +319,17 @@ function open_sp_tip(){
 		}
 		
 		var sp_name=$("#spname").val();
-		$.post("/sp/query_sp_user", {
+		$.ajax({type:"POST", url:"/sp/query_sp_user", data:{
 			'sp_name' : sp_name,
 			'page':target_page,
 			'size':'10'
-		}, function(data) {
+		}, contentType:"application/x-www-form-urlencoded;charset=utf-8",success:function(data,status,jqXHR) {
+			var sessionstatus=jqXHR.getResponseHeader("sessionstatus");
+	        if(sessionstatus!=''&&sessionstatus=="timeout"){
+	        	 alert("登录超时,请重新登录!");
+	             location.href="login";
+	        	 return;
+	        } 
 			var containerBody = $("#bodyid").empty();
 			var htm = "";
 			data = $.parseJSON(data);
@@ -337,7 +364,7 @@ function open_sp_tip(){
 				containerBody.html("<tr><td colspan='6'>未查询到数据<td></tr>");
 			}
 
-		});
+		}});
 	}
 	
 	function search_courier(page) {
@@ -362,12 +389,18 @@ function open_sp_tip(){
 		
 		var realName=$("#c_real_name").val();
 		var phone=$("#c_phone").val();
-		$.post("/allocate/query_courier", {
+		$.ajax({type:"POST",url:"/allocate/query_courier", data:{
 			'real_name' : realName,
 			'phone':phone,
 			'page':target_page,
 			'size':'10'
-		}, function(data) {
+		}, contentType:"application/x-www-form-urlencoded;charset=utf-8",success:function(data,status,jqXHR) {
+			var sessionstatus=jqXHR.getResponseHeader("sessionstatus");
+	        if(sessionstatus=="timeout"){
+	        	 alert("登录超时,请重新登录!");
+	             location.href="login";
+	        	 return;
+	        } 
 			var containerBody = $("#bodyid").empty();
 			var htm = "";
 			data = $.parseJSON(data);
@@ -405,7 +438,7 @@ function open_sp_tip(){
 				containerBody.html("<tr><td colspan='5'>未查询到数据<td></tr>");
 			}
 
-		});
+		}});
 
 	}	
 	

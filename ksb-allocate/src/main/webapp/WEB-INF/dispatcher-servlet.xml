@@ -15,7 +15,7 @@
 	<aop:aspectj-autoproxy />
 
 	<context:annotation-config />
-	
+
 	<mvc:resources location="/WEB-INF/img/" mapping="/img/**" />
 	<mvc:resources location="/WEB-INF/js/" mapping="/js/**" />
 	<mvc:resources location="/WEB-INF/css/" mapping="/css/**" />
@@ -38,12 +38,41 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 
+
+	<bean class="com.ksb.web.interceptor.SessionTimeoutInterceptor" id="sessionTimeoutInterceptor">
+		<property name="allowUrls">
+			<list>
+				<value>/allocate/login</value>
+				<value>/allocate/do_login</value>
+				
+				<!-- <value>/courier_main</value>
+				<value>/count_waybill_page</value>
+				<value>/count_courier_waybill_page</value>
+				<value>/allocate/sp_main</value>
+				<value>/allocate/all_waybill</value>
+				<value>/allocate/main</value>
+				<value>/allocate/main_map</value> -->
+				
+				<value>/api</value>
+				<value>/js</value>
+				<value>/css</value>
+				<value>/image</value>
+				<value>/images</value>
+			</list>
+		</property>
+	</bean>
 	<bean
-		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+		<property name="interceptors">
+            <list>  
+                <ref bean="sessionTimeoutInterceptor"/>   <!-- session超时拦截 -->
+            </list>        
+        </property>  
+	</bean>	
 
 	<!-- 自定义类型绑定 -->
-<!-- 	<bean id="bindingInitializer"
-		class="com.mapabc.boss.web.base.webmvc.initbinder.BindingInitializer" /> -->
+	<!-- <bean id="bindingInitializer" class="com.mapabc.boss.web.base.webmvc.initbinder.BindingInitializer" 
+		/> -->
 
 	<!-- 开启MVC的JSON功能。可以使用@ResponseBody和@RequestBody来输出和输入JSON串 -->
 	<bean id="mappingJacksonHttpMessageConverter"
@@ -101,8 +130,7 @@
 	<!-- -->
 	<bean
 		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
-		<!-- <property name="webBindingInitializer" ref="bindingInitializer">
-		</property> -->
+		<!-- <property name="webBindingInitializer" ref="bindingInitializer"> </property> -->
 		<property name="messageConverters">
 			<list>
 				<ref bean="stringHttpMessageConverter" />
@@ -131,30 +159,13 @@
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource"
 		p:basename="i18n/messages" />
-
-	<!-- 配置异常抛出的对应页面 -->
-	<bean
+		
+	<bean id="handlerExceptionResolver"
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
 			<props>
-				<!-- <prop key="org.apache.shiro.authz.UnauthorizedException">
-					security/unauthorized.jsp
-				</prop>
-				<prop key="org.apache.shiro.authz.UnauthenticatedException">
-					security/unauthenticated.jsp
-				</prop>
-				<prop key="org.apache.shiro.authc.UnknownAccountException">
-					login.jsp?msg=用户不存在！
-				</prop>
-				<prop key="org.apache.shiro.authc.IncorrectCredentialsException">
-					login.jsp?msg=密码错误！
-				</prop>
-				<prop key="org.apache.shiro.authc.AuthenticationException">
-					login.jsp?msg=用户名或密码错误！
-				</prop> -->
-
+				<prop key="com.ksb.openapi.error.SessionTimeoutException">redirect:/allocate/login</prop>
 			</props>
 		</property>
 	</bean>
-
 </beans>

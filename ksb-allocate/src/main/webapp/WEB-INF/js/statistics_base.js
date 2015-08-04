@@ -52,12 +52,19 @@ function search_count_waybill(page) {
 		var et = $("#et").val();
 		
 		
-		$.post("/allocate/count_waybill_date", {
+		$.ajax({type:"POST",url:"/allocate/count_waybill_date", data:{
 			'st' : st,
 			'et' : et,
 			'page':target_page,
-			'size':'10'
-		}, function(data) {
+			'size':'10',
+			'timestamp':new Date().getTime()
+		}, contentType:"application/x-www-form-urlencoded;charset=utf-8",success:function(data) {
+			var sessionstatus=jqXHR.getResponseHeader("sessionstatus");
+	        if(sessionstatus=="timeout"){
+	        	 alert("登录超时,请重新登录!");
+	             location.href="login";
+	        	 return;
+	        } 
 			var containerBody = $("#bodyid").empty();
 			var htm = "";
 			data = $.parseJSON(data);
@@ -104,7 +111,7 @@ function search_count_waybill(page) {
 						$("<td/>").append(getstatusValue(countdata["-3"])))
 				.appendTo($("#bodyid"))				
 			} 
-		});
+		}});
 
 	}
 
@@ -131,12 +138,19 @@ function search_courier_count_waybill(page) {
 	var st = $("#st").val();
 	var name = $("#c_real_name").val();
 	
-	$.post("/allocate/count_courier_waybill_date", {
+	$.ajax({type:"POST",url:"/allocate/count_courier_waybill_date", data:{
 		'st' : st,
 		'name' : name,
 		'page':target_page,
-		'size':'10'
-	}, function(data) {
+		'size':'10',
+		'timestamp':new Date().getTime()
+	},contentType:"application/x-www-form-urlencoded;charset=utf-8",success: function(data,status,jqXHR) {
+		var sessionstatus=jqXHR.getResponseHeader("sessionstatus");
+        if(sessionstatus=="timeout"){
+        	 alert("登录超时,请重新登录!");
+             location.href="login";
+        	 return;
+        } 		
 		var containerBody = $("#bodyid").empty();
 		var htm = "";
 		data = $.parseJSON(data);
@@ -175,6 +189,6 @@ function search_courier_count_waybill(page) {
 			}
 			
 		} 
-	});
+	}});
 
 }

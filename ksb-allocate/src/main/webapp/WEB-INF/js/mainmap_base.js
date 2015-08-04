@@ -159,9 +159,16 @@
 		
 		var ids = chk_value.join("^");
 		
-		$.post("/allocate/query_courier", {
-			work_status:1
-		}, function(cdata) {
+		$.ajax({url:"/allocate/query_courier", data:{
+			work_status:1,
+			'timestamp':new Date().getTime()
+		}, contentType:"application/x-www-form-urlencoded;charset=utf-8",success:function(cdata,status,jqXHR) {
+			var sessionstatus=jqXHR.getResponseHeader("sessionstatus");
+	        if(sessionstatus=="timeout"){
+	        	 //alert("");
+	             location.href="login";
+	        	 return;
+	        } 
 			var containerBody = $("#courierListId").empty();
 			cdata = $.parseJSON(cdata);
 			s = cdata.success;
@@ -200,7 +207,7 @@
 				containerBody.html("<tr><td colspan='4'>未查询到数据<td></tr>");
 			}
 
-		});
+		}});
 	}
 	
 	
@@ -225,15 +232,22 @@
 			}
 		}
 		
-		$.post("/allocate/query_waybill", {
+		$.ajax({type:"POST",url:"/allocate/query_waybill",data:{
 			'status' : '0',
 			'page':target_page,
 			'size':'5',
 			'sp_x':$("#sp_x").val(),
 			'sp_y':$("#sp_y").val(),
 			'bu_x':$("#bu_x").val(),
-			'bu_y':$("#bu_y").val()
-		}, function(data) {
+			'bu_y':$("#bu_y").val(),
+			'timestamp':new Date().getTime()
+		},contentType:"application/x-www-form-urlencoded;charset=utf-8",success: function(data,status,jqXHR) {
+			var sessionstatus=jqXHR.getResponseHeader("sessionstatus");
+	        if(sessionstatus=="timeout"){
+	        	 alert("登录超时,请重新登录!");
+	             location.href="login";
+	        	 return;
+	        } 			
 			data = $.parseJSON(data);
 			s = data.success;
 			if (!s) {//查询失败
@@ -267,7 +281,7 @@
 				$("<tr/>").append("<td colspan='4'>未查询到数据<td>").appendTo($("#waybillview_map"));
 			}
 
-		});
+		}});
 
 	}
 	// 绘制地图 路线
@@ -319,11 +333,18 @@
 		map.clearOverlays();
 		init_points();
 		
-		$.post("/allocate/query_waybill", {
+		$.post({type:"POST",url:"/allocate/query_waybill", data:{
 			'status' : '0',
 			'page':target_page,
-			'size':'100000'
-		}, function(data) {
+			'size':'100000',
+			'timestamp':new Date().getTime()
+		}, contentType:"application/x-www-form-urlencoded;charset=utf-8",success:function(data,status,jqXHR) {
+			var sessionstatus=jqXHR.getResponseHeader("sessionstatus");
+	        if(sessionstatus=="timeout"){
+	        	 alert("登录超时,请重新登录!");
+	             location.href="login";
+	        	 return;
+	        } 			
 			data = $.parseJSON(data);
 			s = data.success;
 			if (!s) {//查询失败
@@ -356,7 +377,7 @@
 				alert("查询无数据");
 			}
 
-		});
+		}});
 	}
 	
 	function reload_map_list(){

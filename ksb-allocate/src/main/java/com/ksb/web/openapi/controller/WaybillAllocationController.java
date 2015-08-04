@@ -178,7 +178,6 @@ public class WaybillAllocationController {
 		
 		pm.put("sp_address", request.getParameter("sp_address"));
 		pm.put("bu_address", request.getParameter("bu_address"));
-		pm.put("wb_id", request.getParameter("waybillId"));
 		
 		
 		Map<String, Object> rsMap = null;
@@ -285,6 +284,7 @@ public class WaybillAllocationController {
 
 		try{
 			webWaybillService.batchAllocateWaybill2Courier(cid, waybillList);
+			
 		}catch(Exception e){
 			rsEntity.setErrors(e.getMessage());
 			return rsEntity;
@@ -343,9 +343,9 @@ public class WaybillAllocationController {
 		rsEntity.setRsobj(countMap);
 		rsEntity.setObjmap(objmap);
 		rsEntity.setSuccess(true);
-		long totalPage = (Long.parseLong(count.toString()) + sizeInt -1) / sizeInt;
-		rsEntity.setTotalCount(Long.parseLong(count.toString()));
-		rsEntity.setTotalPage(totalPage);
+		//long totalPage = (Long.parseLong(count.toString()) + sizeInt -1) / sizeInt;
+		//rsEntity.setTotalCount(Long.parseLong(count.toString()));
+		rsEntity.setTotalPage(0);
 		rsEntity.setLimit(0);
 		rsEntity.setStart(0);
 		rsEntity.setPage(pageInt);
@@ -392,12 +392,12 @@ public class WaybillAllocationController {
 		}
 		
 		Map<String, Map<String, String>> objmap = (Map<String,Map<String,String>>)rsMap.get("1");
-		Object count = rsMap.get("2");
+		//Object count = rsMap.get("2");
 		rsEntity.setObjmap(objmap);
 		rsEntity.setSuccess(true);
-		long totalPage = (Long.parseLong(count.toString()) + sizeInt -1) / sizeInt;
-		rsEntity.setTotalCount(Long.parseLong(count.toString()));
-		rsEntity.setTotalPage(totalPage);
+		//long totalPage = (Long.parseLong(count.toString()) + sizeInt -1) / sizeInt;
+		//rsEntity.setTotalCount(Long.parseLong(count.toString()));
+		//rsEntity.setTotalPage(totalPage);
 		rsEntity.setLimit(0);
 		rsEntity.setStart(0);
 		rsEntity.setPage(pageInt);

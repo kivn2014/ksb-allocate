@@ -19,7 +19,7 @@
 			}
 		}
 		
-		$.post("/allocate/query_waybill", {
+		$.ajax({type:"POST",url:"/allocate/query_waybill", data:{
 			'status' : '',
 			'wbid' : $("#wb_id").val(),
 			'page':target_page,
@@ -28,8 +28,15 @@
 			'bu_address':$("#bu_address").val(),
 			'c_phone':$("#c_phone").val(),
 			'c_realname':$("#c_realname").val(),
+			'timestamp':new Date().getTime()
 				
-		}, function(data) {
+		}, contentType:"application/x-www-form-urlencoded;charset=utf-8",success:function(data,status,jqXHR) {
+			var sessionstatus=jqXHR.getResponseHeader("sessionstatus");
+	        if(sessionstatus=="timeout"){
+	        	 alert("登录超时,请重新登录!");
+	             location.href="login";
+	        	 return;
+	        } 
 			var containerBody = $("#bodyid").empty();
 			var htm = "";
 			data = $.parseJSON(data);
@@ -46,11 +53,11 @@
 				
 				info = data.obj;
 				$.each(info, function(i, n) {
-					$("<tr/>").append($("<td/>").append(n.id)).append(
-							$("<td/>").append(n.create_time)).append(
+					//$("<tr/>").append($("<td/>").append(n.id)).append(
+					$("<tr/>").append($("<td/>").append(n.create_time)).append(
 							$("<td/>").append(n.shipper_address)).append(
 							$("<td/>").append(n.buyer_address)).append(
-							$("<td/>").append(n.courier_naem)).append(		
+							$("<td/>").append(n.courier_realname)).append(		
 							$("<td/>").append(getStatus(n.status))) 
 					       .appendTo($("#bodyid"))
 
@@ -60,6 +67,6 @@
 				containerBody.html("<tr><td colspan='8'>未查询到数据<td></tr>");
 			}
 
-		});
+		}});
 
 	}

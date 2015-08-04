@@ -79,7 +79,7 @@ $(function() {
 
 	var save_info = function() {
 		
-		var city_name = $("#fromCity").val();
+		var city_code = $("#fromCity").val();
 		var pickup_info = get_pickup_info();
 		if (!pickup_info) {
 			return;
@@ -105,7 +105,7 @@ $(function() {
 		$("#saveInfo").attr("disabled","disabled");
 		$("#saveInfo").text("正在提交...");
 		
-		save_order_base(city_name, pickup_info, deliver_list, cargo_info,fee_info,
+		save_order_base(city_code, pickup_info, deliver_list, cargo_info,fee_info,
 				on_save_success, function() {
 				}, function(res) {
 					_is_saving = true;
@@ -424,7 +424,7 @@ var save_order_base = function(order_city, pickup_info, deliver_list,
 	var url = 'batch_add_waybill';
 
 	var req_data = {
-		city_name : order_city,
+		city_code : order_city,
 		shipper_name : pickup_info.fromName,
 		shipper_phone : pickup_info.fromMobile,
 		shipper_address : pickup_info.fromAddress,
@@ -442,7 +442,8 @@ var save_order_base = function(order_city, pickup_info, deliver_list,
 		cargo_price:goods_info.cargoPrice,
 		remarks : goods_info.remarks,
 		fetch_buyer_fee:fee_info.fetch_buyer_fee,
-		pay_shipper_fee:fee_info.pay_shipper_fee
+		pay_shipper_fee:fee_info.pay_shipper_fee,
+		timestamp:new Date().getTime()
 		
 	};
 	this._post(url, req_data, on_success, on_before_send, on_complete,
@@ -454,7 +455,7 @@ var on_save_success = function(res) {
 		$("#saveInfo").removeAttr("disabled");
 		$("#saveInfo").text("提交");
 		alert("提交成功!");
-		location.href = "/api/add_waybill"
+		location.href = "/sp/add_waybill"
 		return;
 	} else {
 		alert("提交失败: " + res.errors);
@@ -472,7 +473,14 @@ var _post = function(post_url, req_data, on_success, on_before_send,
 		type : 'POST',
 		data : req_data,
 		dataType : 'json',
+		contentType:"application/x-www-form-urlencoded;charset=utf-8",
 		success : function(data, textStatus, jqXHR) {
+			var sessionstatus=jqXHR.getResponseHeader("sessionstatus");
+	        if(sessionstatus=="timeout"){
+	        	 alert("登录超时,请重新登录!");
+	             location.href="login";
+	        	 return;
+	        } 
 			on_success && on_success(data, textStatus, jqXHR);
 		},
 		beforeSend : function(jqXHR, settings) {

@@ -41,11 +41,11 @@
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="logout">退出</a></li>
-			 	<li><a href="<%=request.getContextPath()%>/api/add_waybill"
+			 	<li><a href="<%=request.getContextPath()%>/sp/add_waybill"
 					target="_blank"><font color="red">在线下单</font></a></li>
 			<%--	<li><a href="<%=request.getContextPath()%>/openapi/fp_waybill"
 					target="_blank"><font color="red">运单分配</font></a></li> --%>
-				<li><a href="http://www.3gongli.com/" target="_blank">联系我们</a></li>
+				<li><a href="http://www.3gongli.com/" target="_blank">主页</a></li>
 				<li><a href="#">帮助</a></li>
 			</ul>
 		</div>

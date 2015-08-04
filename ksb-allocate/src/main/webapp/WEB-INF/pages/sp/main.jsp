@@ -41,7 +41,7 @@
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="logout">退出</a></li>
-				<li><a href="<%=request.getContextPath()%>/api/add_waybill"
+				<li><a href="<%=request.getContextPath()%>/sp/add_waybill"
 					target="_blank"><font color="red">在线下单</font></a></li>
 				<%-- <li><a href="<%=request.getContextPath()%>/openapi/fp_waybill"
 					target="_blank"><font color="red">运单分配</font></a></li> --%>
@@ -60,6 +60,8 @@
 					<li class="active"><a href="main">待分配<span class="sr-only">(current)</span></a></li>
 					<li><a href="sp_main">商家用户</a></li>
 					<li><a href="courier_main">配送员</a></li>
+					<li><a href="count_waybill_page">订单统计</a></li>
+					<li><a href="count_courier_waybill_page">配送员订单统计</a></li>						
 				</ul>
 
 			</div>

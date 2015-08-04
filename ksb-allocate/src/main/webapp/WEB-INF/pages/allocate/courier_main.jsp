@@ -35,10 +35,9 @@
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="logout">退出</a></li>
-				<li><a href="<%=request.getContextPath()%>/api/add_waybill"
+				<li><a href="<%=request.getContextPath()%>/sp/add_waybill"
 					target="_blank"><font color="red">在线下单</font></a></li>
-				<li><a href="http://www.3gongli.com/" target="_blank">联系我们</a></li>
-				<li><a href="#">帮助</a></li>
+				<li><a href="http://www.3gongli.com/" target="_blank">主页</a></li>
 			</ul>
 		</div>
 	</div>
@@ -52,6 +51,8 @@
 					<li><a href="main">待分配</a></li>
 					<li><a href="sp_main">商家用户</a></li>
 					<li class="active"><a href="courier_main">配送员<span class="sr-only">(current)</span></a></li>
+					<li><a href="count_waybill_page">订单统计</a></li>
+					<li><a href="count_courier_waybill_page">配送员订单统计</a></li>						
 				</ul>
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">

@@ -119,15 +119,15 @@
                                     <div class="address">
                                         <select id="fromCity" class="from-address-info-city">
                                             
-                                                <option selected="selected" value="广州市" data-name="广州市">广州市</option>
+                                                <option selected="selected" value="020" data-name="广州市">广州市</option>
                                             
-                                                <option  value="东莞市" data-name="东莞市">东莞市</option>
+                                                <option  value="0769" data-name="东莞市">东莞市</option>
                                             
-                                                <option  value="济南市" data-name="济南市">济南市</option>
+                                                <option  value="0531" data-name="济南市">济南市</option>
                                             
-                                                <option  value="深圳市" data-name="深圳市">深圳市</option>
+                                                <option  value="0755" data-name="深圳市">深圳市</option>
                                             
-                                                <option  value="北京市" data-name="北京市">北京市</option>
+                                                <option  value="010" data-name="北京市">北京市</option>
                                             
                                         </select>
                                     </div>

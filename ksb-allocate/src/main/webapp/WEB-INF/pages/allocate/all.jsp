@@ -34,10 +34,10 @@
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="logout">退出</a></li>
-				<%-- <li><a href="<%=request.getContextPath()%>/openapi/add_waybill"
-					target="_blank"><font color="red">在线下单</font></a></li> --%>
-				<li><a href="http://www.3gongli.com/" target="_blank">联系我们</a></li>
-				<li><a href="#">帮助</a></li>
+				<li><a href="<%=request.getContextPath()%>/sp/add_waybill"
+					target="_blank"><font color="red">在线下单</font></a></li>
+				<li><a href="http://www.3gongli.com/" target="_blank">主页</a></li>
+				<!-- <li><a href="#">帮助</a></li> -->
 			</ul>
 		</div>
 	</div>
@@ -57,7 +57,7 @@
 
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<h1 class="page-header">快送宝 运单分配管理</h1>
+				<h1 class="page-header">快送宝 运单管理</h1>
 
 				<form class="form-inline">
 				<input type="text" id="wb_id" class="form-control" placeholder="运单编号" required autofocus>
@@ -72,7 +72,6 @@
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th>运单编号</th>
 								<th>下单时间</th>
 								<th>商家地址</th>
 								<th>收货人地址</th>
