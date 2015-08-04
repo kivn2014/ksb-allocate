@@ -333,7 +333,7 @@
 		map.clearOverlays();
 		init_points();
 		
-		$.post({type:"POST",url:"/allocate/query_waybill", data:{
+		$.ajax({type:"POST",url:"/allocate/query_waybill", data:{
 			'status' : '0',
 			'page':target_page,
 			'size':'100000',

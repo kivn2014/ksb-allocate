@@ -72,7 +72,7 @@ function search_count_waybill(page) {
 			'page':target_page,
 			'size':'10',
 			'timestamp':new Date().getTime()
-		}, contentType:"application/x-www-form-urlencoded;charset=utf-8",success:function(data) {
+		}, contentType:"application/x-www-form-urlencoded;charset=utf-8",success:function(data,status,jqXHR) {
 			var sessionstatus=jqXHR.getResponseHeader("sessionstatus");
 	        if(sessionstatus=="timeout"){
 	        	 alert("登录超时,请重新登录!");

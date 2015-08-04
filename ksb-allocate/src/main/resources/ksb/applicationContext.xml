@@ -15,7 +15,6 @@
 						http://www.springframework.org/schema/util
 						http://www.springframework.org/schema/util/spring-util.xsd">
 
-
     <import resource="consumer.xml" />
 
 	<aop:aspectj-autoproxy />
