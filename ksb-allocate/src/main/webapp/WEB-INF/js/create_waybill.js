@@ -259,6 +259,16 @@ function get_cargo_info() {
 
 function get_pickup_info() {
 	var $obj = $('.pickup');
+	
+    /*商家编号*/
+	var spid = $('.pickup').find('.address-info-spid').val();
+	
+	/*商家原始订单id*/
+	var originid = $('.pickup').find('.address-info-originid').val();
+	
+	/*配送平台id*/
+	var psid = $('.pickup').find('.address-info-psid').val();
+	
 	var name = iss_trim($('.pickup').find('.address-info-name').val()); // 发货联系人姓名
 	var phone = $('.pickup').find('.address-info-phone').val(); // 发货联系人电话
 	var x = $('.pickup').attr('address-info-x'); // 发货地址的纬度 一般小于100 latitude
@@ -268,6 +278,8 @@ function get_pickup_info() {
 	var remark = $('.pickup').find('.address-info-remark').val(); // 发货地址备注
 	var province = $('.pickup').attr('address-info-province') || ''; // 发货地址对应的省
 	var city = $('.pickup').attr('address-info-city'); // 发货地址对应的城市
+
+	if(spid==''){
 
 	var top = $obj.offset().top;
 	if (!check_address(x, y)) {
@@ -299,8 +311,11 @@ function get_pickup_info() {
 		}, true);
 		return false;
 	}
-
+	}
 	return {
+		spid : spid,
+		originid : originid,
+		psid : psid,
 		fromName : name,
 		fromMobile : phone,
 		x : x,
@@ -438,6 +453,9 @@ var save_order_base = function(order_city, pickup_info, deliver_list,
 	var url = 'batch_add_waybill';
 
 	var req_data = {
+		third_platform_id : pickup_info.psid,
+		shipper_id : pickup_info.spid,
+		origin_id : pickup_info.originid,
 		city_code : order_city,
 		shipper_name : pickup_info.fromName,
 		shipper_phone : pickup_info.fromMobile,
@@ -446,10 +464,8 @@ var save_order_base = function(order_city, pickup_info, deliver_list,
 		shipper_address_x : pickup_info.x,
 		shipper_address_y : pickup_info.y,
 		buyers_list : deliver_list,
-
 		booking_fetch : goods_info.isbooking,
 		booking_fetch_time : goods_info.booking_date,
-
 		cargo_weight : goods_info.weight,
 		cargo_name : goods_info.cargoName,
 		cargo_num : goods_info.cargoNum,

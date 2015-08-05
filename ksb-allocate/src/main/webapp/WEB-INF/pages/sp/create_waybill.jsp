@@ -135,6 +135,30 @@
                             </td>
                         </tr>
                         <tr>
+                            <th>商家编号：</th>
+                            <td>
+                                <p>
+                                    <input  type="text" placeholder="商家编号" maxlength="20" class="address-info-spid from-address-info-name" value=""/>(选填)
+                                </p>
+                            </td>
+                        </tr>    
+                        <tr>
+                            <th>原始订单ID：</th>
+                            <td>
+                                <p>
+                                    <input  type="text" placeholder="商家订单ID" maxlength="20" class="address-info-originid from-address-info-name" value=""/> (选填)
+                                </p>
+                            </td>
+                        </tr>     
+                        <tr>
+                            <th>配送平台ID：</th>
+                            <td>
+                                <p>
+                                    <input  type="text" placeholder="配送平台ID" maxlength="20" class="address-info-psid from-address-info-name" value=""/> (指定配送商)
+                                </p>
+                            </td>
+                        </tr>                                                                  
+                        <tr>
                             <th>寄件地址：</th>
                             <td>
                                 <div class="address-wrap">

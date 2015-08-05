@@ -65,7 +65,6 @@ function search_count_waybill(page) {
 		var st = $("#st").val();
 		var et = $("#et").val();
 		
-		
 		$.ajax({type:"POST",url:"/allocate/count_waybill_date", data:{
 			'st' : st,
 			'et' : et,
