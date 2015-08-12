@@ -214,7 +214,7 @@ public class WaybillAllocationController {
 	
 	@RequestMapping("/query_courier")
 	public @ResponseBody 
-	       ResultPageEntity queryCourierList(HttpServletRequest request,String real_name,String phone,String page,String size){
+	       ResultPageEntity queryCourierList(HttpServletRequest request,String real_name,String phone,String ws,String ds,String page,String size){
 		
 		ResultPageEntity rsEntity = new ResultPageEntity();
 		
@@ -244,8 +244,12 @@ public class WaybillAllocationController {
 		
 		newCourier.setReal_name(real_name);
 		newCourier.setPhone(phone);
-		newCourier.setWork_status("1");
-		newCourier.setDelivery_status("0");
+		if(StringUtils.isNotBlank(ws)){
+			newCourier.setWork_status(ws);
+		}
+		if(StringUtils.isNotBlank(ds)){
+			newCourier.setDelivery_status(ds);
+		}
 		
 		Map<String, Object> rsMap = null;
 		try{
@@ -456,7 +460,6 @@ public class WaybillAllocationController {
 			return rs;	
 		}
 		
-		
 		if(file==null){
 			rs.setErrors("ER");
 			rs.setObj("未指定上传的文件");
@@ -471,6 +474,12 @@ public class WaybillAllocationController {
 			rs.setObj("无法获取文件名");
 			return rs;
 		}
+		if(!fileName.endsWith(".csv")){
+			rs.setErrors("ER");
+			rs.setObj("仅支持 csv文件");
+			return rs;
+		}
+		
 		
 		List<CourierEntity> courierList = null;
   
@@ -479,7 +488,7 @@ public class WaybillAllocationController {
             //file.transferTo(targetFile);  
         	InputStream in = file.getInputStream();
         	BufferedReader br =null;
-        	br=new BufferedReader(new InputStreamReader(in));
+        	br=new BufferedReader(new InputStreamReader(in,"GBK"));
         	
         	courierList = new ArrayList<CourierEntity>();
         	String temp=null;
@@ -496,14 +505,24 @@ public class WaybillAllocationController {
         			rs.setObj("第["+i+"]行异常: "+e.getMessage());
         			return rs;
         		}
-        		
+        		temp=br.readLine();
         	}
         	
         } catch (Exception e) {  
             //e.printStackTrace();  
-        	System.out.println("文件上传异常："+e.getMessage());
+    		rs.setErrors("ER");
+    		rs.setObj("文件解析异常:"+e.getMessage());
+    		return rs;
         } 
 		
+        try{
+        	courierService.batchCreateCourier(courierList);
+        }catch(Exception e){
+    		rs.setErrors("ER");
+    		rs.setObj("保存失败:"+e.getMessage());
+    		return rs;
+        }
+        
 		rs.setSuccess(true);
 		rs.setErrors("OK");
 		rs.setObj("");
@@ -522,7 +541,6 @@ public class WaybillAllocationController {
 			if(strs.length<3){
 				throw new BaseSupportException("数据格式异常");
 			}
-			
 			
 			entity.setReal_name(strs[0]);
 			entity.setPhone(strs[1]);

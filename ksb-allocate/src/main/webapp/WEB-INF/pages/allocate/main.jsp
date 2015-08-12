@@ -157,15 +157,26 @@
 						placeholder="用户名" required autofocus> <input type="text"
 						id="c_realname" class="form-control" placeholder="真实姓名" required
 						autofocus> -->
+					状态:<select class="form-control" id="ds">
+						<option value="">所有</option>
+						<option value="0">空闲</option>
+						<option value="1">配送中</option>
+					</select>
+					<input type="text" class="form-control" id="real_name" placeholder="真实姓名" required
+						autofocus/>
+					<input type="text" class="form-control" id="phone" placeholder="手机号" required
+						autofocus/>
+					<input type="hidden" id="tmp_ids"/>
 					<button type="button" onclick="javascript:search_courier()"
-						class="btn btn-default" id="searchCourier">search</button>
+						class="btn btn-default" id="searchCourier">查询</button>
 				</form>
 				<table class="table table-striped dssBasic">
 					<thead>
 						<tr>
 						    <td>id</td>
-							<td>用户名</td>
+							<td>手机号</td>
 							<td>真实姓名</td>
+							<td>配送状态</td>
 							<td>操作</td>
 						</tr>
 					</thead>

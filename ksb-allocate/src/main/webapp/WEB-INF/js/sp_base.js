@@ -195,7 +195,15 @@ function open_sp_tip(){
                 dataType: 'json',
                 success:function(data,status)
                 {
-                	alert("执行结果：123");
+                	//data = $.parseJSON(data);
+                	s = data.success;
+                	alert(s);
+                	if(s){
+                		alert("配送员创建成功");
+                		return;
+                	}else{
+                		alert(data.obj);
+                	}
                 },
                 error: function (data, status, e)
                 {
@@ -467,6 +475,10 @@ function open_sp_tip(){
 							$("<td/>").append(getPsStatus(n.delivery_status)))
 							.append(
 							$("<td/>").append("<button/>").find("button").addClass("btn btn-primary").append("位置").click(function(){
+								if(n.address_x==''||n.address_x==null){
+									alert("无法获取位置信息");
+									return;
+								}
 								$(".smallMapDiv").show();
 								initMap();							    
 								draw_courier(n.address_x, n.address_y);

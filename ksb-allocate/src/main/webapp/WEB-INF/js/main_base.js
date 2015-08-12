@@ -49,23 +49,13 @@
 	}
 	
 	function search_courier(){
-		//alert("333");
-	}
-	
-	function batch_fp(){
-		var chk_value =[]; 
-		$('input[name="wbids"]:checked').each(function(){ 
-		 chk_value.push($(this).val()); 
-		}); 
+		var ids = $("#tmp_ids").val();
+		var realName=$("#real_name").val();
+		var phone = $("#phone").val();
 		
-		if(chk_value.length==0){
-			alert('未选择任何运单');
-			return;
-		}
-		
-		var ids = chk_value.join("^");
-		
-		$.ajax({type:"POST",url:"/allocate/query_courier", data:{work_status:1,'timestamp':new Date().getTime()},contentType:"application/x-www-form-urlencoded;charset=utf-8", success:function(cdata,status,jqXHR) {
+		/*配送状态*/
+		var ds = $("#ds").val();
+		$.ajax({type:"POST",url:"/allocate/query_courier", data:{ws:1,ds:ds,real_name:realName,phone:phone,'timestamp':new Date().getTime()},contentType:"application/x-www-form-urlencoded;charset=utf-8", success:function(cdata,status,jqXHR) {
 			var sessionstatus=jqXHR.getResponseHeader("sessionstatus");
 	        if(sessionstatus=="timeout"){
 	        	 alert("登录超时,请重新登录!");
@@ -85,8 +75,80 @@
 				$.each(cinfo, function(i, n) {
 					$("<tr/>").append(
 							$("<td/>").append(n.id)).append(
-							$("<td/>").append(n.name)).append(
+							$("<td/>").append(n.phone)).append(
 							$("<td/>").append(n.real_name)).append(
+							$("<td/>").append(getPsStatus(n.delivery_status))).append(		
+							$("<td/>").append("<button/>").find("button").addClass("btn btn-primary").append("分给他").click(function(){
+								
+								$.post("/allocate/batch_allocate", {
+									"cid":n.id,
+									"wbids":ids
+								}, function(d){
+									d = $.parseJSON(d);
+									ss = d.success;
+									if (!ss) {//查询失败
+										alert(cdata.errors);
+										return;
+									}else{
+										alert("分配完毕");
+										return;
+									}
+								});
+					}))  
+					.appendTo($("#courierListId"))
+					
+					 $('#courierModal').modal({});
+				});
+			} else {
+				alert("未查询到可用的配送员");
+				containerBody.html("<tr><td colspan='4'>未查询到数据<td></tr>");
+			}
+
+		},error:function(){
+			alert("操作异常");
+//            location.href="login";
+       	    return;
+		}});
+	}
+	
+	function batch_fp(){
+		var chk_value =[]; 
+		$('input[name="wbids"]:checked').each(function(){ 
+		 chk_value.push($(this).val()); 
+		}); 
+		
+		if(chk_value.length==0){
+			alert('未选择任何运单');
+			return;
+		}
+		
+		var ids = chk_value.join("^");
+		$("#tmp_ids").val(ids);
+		/*配送状态*/
+		var ds = $("#ds").val();
+		$.ajax({type:"POST",url:"/allocate/query_courier", data:{ws:1,ds:ds,'timestamp':new Date().getTime()},contentType:"application/x-www-form-urlencoded;charset=utf-8", success:function(cdata,status,jqXHR) {
+			var sessionstatus=jqXHR.getResponseHeader("sessionstatus");
+	        if(sessionstatus=="timeout"){
+	        	 alert("登录超时,请重新登录!");
+	             location.href="login";
+	        	 return;
+	        } 
+			var containerBody = $("#courierListId").empty();
+			var htm = "";
+			cdata = $.parseJSON(cdata);
+			s = cdata.success;
+			if (!s) {//查询失败
+				alert(cdata.errors);
+				return;
+			}
+			if (cdata.obj != null && cdata.obj.length > 0) {
+				cinfo = cdata.obj;
+				$.each(cinfo, function(i, n) {
+					$("<tr/>").append(
+							$("<td/>").append(n.id)).append(
+							$("<td/>").append(n.phone)).append(
+							$("<td/>").append(n.real_name)).append(
+							$("<td/>").append(getPsStatus(n.delivery_status))).append(
 							$("<td/>").append("<button/>").find("button").addClass("btn btn-primary").append("分给他").click(function(){
 								$.post("/allocate/batch_allocate", {
 									"cid":n.id,

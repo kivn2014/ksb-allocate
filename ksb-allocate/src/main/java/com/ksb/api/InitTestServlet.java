@@ -45,7 +45,7 @@ public class InitTestServlet extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		
-		
+		System.out.println("");
 	}
 	
 	private Map<String, String> getMap(String id){
