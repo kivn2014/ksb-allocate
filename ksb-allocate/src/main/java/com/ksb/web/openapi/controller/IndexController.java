@@ -16,6 +16,4 @@ public class IndexController {
 		return "allocate/login";
 	}
 
-	
-
 }

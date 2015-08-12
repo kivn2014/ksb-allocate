@@ -1,5 +1,10 @@
 package com.ksb.web.openapi.controller;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -15,8 +20,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ksb.openapi.entity.CourierEntity;
 import com.ksb.openapi.entity.ResultEntity;
@@ -26,6 +33,8 @@ import com.ksb.openapi.mobile.service.ShipperService;
 import com.ksb.openapi.service.StatisticsService;
 import com.ksb.openapi.service.WaybillService;
 import com.ksb.openapi.util.DateUtil;
+import com.ksb.openapi.util.DesUtil;
+import com.ksb.openapi.util.MD5Util;
 import com.ksb.web.openapi.entity.ResultPageEntity;
 import com.ksb.web.service.WebWaybillService;
 
@@ -429,6 +438,123 @@ public class WaybillAllocationController {
 		rs.setObj(rsList);
 		return rs;
 	}	
+	
+	@RequestMapping("/batch_save_courier")
+	public @ResponseBody 
+	       ResultEntity batchSaveCourier(@RequestParam(value = "file", required = false) MultipartFile file,HttpServletRequest request){
+		
+		ResultEntity rs = new ResultEntity();
+		
+		CourierEntity c = (CourierEntity)request.getSession().getAttribute("courierEntity");
+		if(c==null){
+			rs.setErrors("session过期,请重新登录");
+			return rs;
+		}
+		String eid = c.getEnterprise_id();
+		if(StringUtils.isBlank(eid)){
+			rs.setErrors("无法获取配送公司编号");
+			return rs;	
+		}
+		
+		
+		if(file==null){
+			rs.setErrors("ER");
+			rs.setObj("未指定上传的文件");
+			return rs;
+		}
+		
+		String fileName = file.getOriginalFilename(); 
+		
+		/*验证文件格式(后缀必须是csv)*/
+		if(StringUtils.isBlank(fileName)){
+			rs.setErrors("ER");
+			rs.setObj("无法获取文件名");
+			return rs;
+		}
+		
+		List<CourierEntity> courierList = null;
+  
+        //读取文件内容 
+        try {  
+            //file.transferTo(targetFile);  
+        	InputStream in = file.getInputStream();
+        	BufferedReader br =null;
+        	br=new BufferedReader(new InputStreamReader(in));
+        	
+        	courierList = new ArrayList<CourierEntity>();
+        	String temp=null;
+        	temp=br.readLine();
+        	int i = 1;
+        	/*跳过csv文件头*/
+        	temp=br.readLine();
+        	while(temp!=null){
+        		i++;
+        		try{
+        			courierList.add(str2entity(temp,eid));
+        		}catch(Exception e){
+        			rs.setErrors("ER");
+        			rs.setObj("第["+i+"]行异常: "+e.getMessage());
+        			return rs;
+        		}
+        		
+        	}
+        	
+        } catch (Exception e) {  
+            //e.printStackTrace();  
+        	System.out.println("文件上传异常："+e.getMessage());
+        } 
+		
+		rs.setSuccess(true);
+		rs.setErrors("OK");
+		rs.setObj("");
+		return rs;
+	}
+	
+	private CourierEntity str2entity(String str,String eid){
+		
+		if(StringUtils.isBlank(str)){
+			throw new BaseSupportException("数据为空");
+		}
+		
+		CourierEntity entity = new CourierEntity();
+		try{
+			String strs[] = str.split("\\,");
+			if(strs.length<3){
+				throw new BaseSupportException("数据格式异常");
+			}
+			
+			
+			entity.setReal_name(strs[0]);
+			entity.setPhone(strs[1]);
+			entity.setPwd(strs[2]);
+			entity.setWork_status("2");
+			entity.setDelivery_status("0");
+			entity.setEnterprise_id(eid);
+			entity.setName("courier");
+			setCourierPwd(entity);
+			
+		}catch(Exception e){
+			throw new BaseSupportException(e);
+		}
+		
+		return entity;
+	}
+	
+	private void setCourierPwd(CourierEntity entity){
+		String pwd = entity.getPwd();
+		String srcPwd = null;
+		try {
+			srcPwd = DesUtil.getInstance().encrypt(pwd);
+		} catch (Exception e1) {}
+		
+		/*密码使用两次MD5加密*/
+		pwd = MD5Util.MD5(MD5Util.MD5(pwd));
+		entity.setPwd(pwd);
+		entity.setSrcPwd(srcPwd);
+		
+	}
+	
+	
 	
 	@RequestMapping("/save_courier")
 	public @ResponseBody

@@ -12,16 +12,18 @@
 <title>快送宝 配送员管理</title>
 
 <script src="/js/jquery/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="/js/jquery/jquery.ajaxfileupload.js"></script>
 <script src="/js/waybill_status.js"></script>
 <script src="/js/sp_base.js"></script>
-<link href="/css/order_base.css" rel="stylesheet" type="text/css" id="style_color" />
+<link href="/css/order_base.css" rel="stylesheet" type="text/css"
+	id="style_color" />
 <script src="/js/bootstrap/bootstrap.min.js"></script>
 <link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet">
 <link href="/css/dashboard.css" rel="stylesheet">
 <script type="text/javascript"
 	src="http://api.map.baidu.com/api?v=2.0&ak=zNC2uIzYGKnY3V8D7iCBbLsi"></script>
 <script type="text/javascript">
-
+	
 </script>
 
 </head>
@@ -50,28 +52,31 @@
 					<li><a href="all_waybill">所有</a></li>
 					<li><a href="main">待分配</a></li>
 					<li><a href="sp_main">商家用户</a></li>
-					<li class="active"><a href="courier_main">配送员<span class="sr-only">(current)</span></a></li>
+					<li class="active"><a href="courier_main">配送员<span
+							class="sr-only">(current)</span></a></li>
 					<li><a href="count_waybill_page">订单统计</a></li>
-					<li><a href="count_courier_waybill_page">配送员订单统计</a></li>						
+					<li><a href="count_courier_waybill_page">配送员订单统计</a></li>
 				</ul>
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<h1 class="page-header">快送宝 配送员管理</h1>
-                
+
 				<form class="form-inline">
-				    <input class="form-control" type="text" autocomplete="off"
-							placeholder="真实姓名" id="c_real_name" />
 					<input class="form-control" type="text" autocomplete="off"
-							placeholder="手机号" id="c_phone" />	
-					&nbsp;&nbsp;&nbsp;&nbsp;	
+						placeholder="真实姓名" id="c_real_name" /> <input
+						class="form-control" type="text" autocomplete="off"
+						placeholder="手机号" id="c_phone" /> &nbsp;&nbsp;&nbsp;&nbsp;
 					<button type="button" onclick="javascript:search_courier(0)"
-						class="btn btn-default" id="dataSearchId">查询</button>	
-					&nbsp;&nbsp;&nbsp;&nbsp;		
-					<button type="button" class="btn btn-default" onclick="javascript:open_courier_tip()" id="add_page">添加配送员</button>	
+						class="btn btn-default" id="dataSearchId">查询</button>
 					&nbsp;&nbsp;&nbsp;&nbsp;
-					<button type="button" class="btn btn-default" onclick="javascript:view_courier_map()" id="view_allcourier">地图</button>		
-					
-				</form><br/>
+					<button type="button" class="btn btn-default"
+						onclick="javascript:open_courier_tip()" id="add_page">添加配送员</button>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<button type="button" class="btn btn-default"
+						onclick="javascript:view_courier_map()" id="view_allcourier">地图</button>
+
+				</form>
+				<br />
 				<div class="table-responsive">
 					<table class="table table-striped">
 						<thead>
@@ -106,40 +111,56 @@
 	</div>
 
 </body>
-    <div class="smallMapDiv">
-        <div id="helpMapContainer" style="width:100%;height:100%;position: absolute;right: 0;">
-        </div>
-        <span class="closeHelpMap" onclick="javascript:closeMap()"></span>
+<div class="smallMapDiv">
+	<div id="helpMapContainer"
+		style="width: 100%; height: 100%; position: absolute; right: 0;">
+	</div>
+	<span class="closeHelpMap" onclick="javascript:closeMap()"></span>
 
-    </div>
-    <div class="bigMapDiv">
-        <div id="bigMapContainer" style="width:100%;height:100%;position: absolute;right: 0;">
-        </div>
-        <span class="closeHelpMap" onclick="javascript:closeBigMap()"></span>
+</div>
+<div class="bigMapDiv">
+	<div id="bigMapContainer"
+		style="width: 100%; height: 100%; position: absolute; right: 0;">
+	</div>
+	<span class="closeHelpMap" onclick="javascript:closeBigMap()"></span>
 
-    </div>    
-<div class="optDiv" >
-			<div>
-				
-				<h4 class="modal-title" id="myModalLabel">添加配送员</h4>
-			</div>
-			<div class="modal-body">
-				<form class="form-inline">
-				    
-					真实姓名:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="c_real_name" class="form-control"
-						placeholder="真实姓名" required autofocus> <br/> <br/>
-					手机号码:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text"
-						id="c_phone" class="form-control" placeholder="手机号" required
-						autofocus>	 <br/> <br/>
-					登录密码:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text"
-						id="c_passwd" class="form-control" placeholder="密码" required
-						autofocus> <br/> <br/>																
-					<button type="button" onclick="javascript:add_courier()"
-						class="btn btn-default">添加</button>
-				</form>
+</div>
 
-			</div>
-			<span class="closeHelpMap" onclick="javascript:close_courier_tip()"></span>
+<div class="optDiv" id="courier_view_id">
+	<div>
+		<h4 class="modal-title" id="myModalLabel">添加配送员</h4>
+	</div>
+	<div class="modal-body">
+		<div id="file_id" style="display: none">
+			<a href="javascript:switchSaveCourierType('1')"><font color="red">我要单个创建</font>
+			</a><br />
+			<br />
+			<p>
+				<input type="file" id="courier-file" name="file" />
+			</p>
+			<!-- <span id="batch_sucess_num" style="display: none;color:#ff9955">0</span><br/>
+			<span id="batch_fail_num" style="display: none;color:#ff9955">0</span></br> -->
+			<input type="button" onclick="javascript:ajaxFileUpload()" value="提交" />
+		</div>
+		<div id="form_id">
+			<a href="javascript:switchSaveCourierType('0')"><font color="red">我要上传文件批量创建</font>
+			</a><br />
+			<br />
+			<form class="form-inline">
+				真实姓名:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text"
+					id="c_real_name" class="form-control" placeholder="真实姓名" required
+					autofocus> <br /> <br />
+				手机号码:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="c_phone"
+					class="form-control" placeholder="手机号" required autofocus>
+				<br /> <br /> 登录密码:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+					type="text" id="c_passwd" class="form-control" placeholder="密码"
+					required autofocus> <br /> <br />
+				<button type="button" onclick="javascript:add_courier()"
+					class="btn btn-default">添加</button>
+			</form>
+		</div>
+	</div>
+	<span class="closeHelpMap" onclick="javascript:close_courier_tip()"></span>
 </div>
 </html>
 

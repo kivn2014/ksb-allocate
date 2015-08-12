@@ -165,6 +165,48 @@ function open_sp_tip(){
 		search_courier(0);
 	}
 	
+	function switchSaveCourierType(t){
+		if(t==''){
+			return;
+		}
+		
+		/*批量创建*/
+		if(t=='0'){
+			$("#form_id").css('display','none');
+			$("#file_id").css('display','block');
+			return;
+		}
+		
+		/*单个创建*/
+		if(t=='1'){
+			$("#form_id").css('display','block');
+			$("#file_id").css('display','none');
+			return;
+		}
+	}
+	
+    function ajaxFileUpload() {
+        $.ajaxFileUpload
+        (
+            {
+                url: 'batch_save_courier',
+                secureuri: false,
+                fileElementId: 'courier-file',
+                dataType: 'json',
+                success:function(data,status)
+                {
+                	alert("执行结果：123");
+                },
+                error: function (data, status, e)
+                {
+                  alert(e);
+                }
+            }
+        )
+        $("#courier-file").val("");
+        alert("数据已经提交!");
+        //return false;
+    }	
 	function add_sp_user(){
 		var map={sp_name:'1',sp_user:'2',sp_passwd:'3',sp_phone:'4'};
 		$(".optDiv").find("input").each(function(){
