@@ -4,6 +4,17 @@
   $().ready(function(){ 
 	 // initMap();
 	}); 
+ 
+  $(function(){
+	  
+    $("#yysj").on("click", function() {
+         // ajaxFileUpload();
+    	  alert("me");
+      })
+	  
+	  
+  });
+  
   
   function closeMap(){
 	  $(".smallMapDiv").hide();
@@ -82,11 +93,16 @@
 				$.each(info, function(i, n) {
 					//查询结果展现在地图上
 
-					var work_status = n.work_status;
-					var real_name = n.real_name;
-					var point = new BMap.Point(n.address_x, n.address_y)
-					drawpoint(point,work_status,real_name);
-					
+					if(n.address_x!=null && n.address_x!=''){
+					    var work_status = n.work_status;
+					    var real_name = n.real_name;
+					    var reporttime = n.report_time;
+					    if(reporttime==null){
+					    	reporttime="无";
+					    }
+					    var point = new BMap.Point(n.address_x, n.address_y)
+					    drawpoint(point,work_status,real_name,reporttime);
+					}
 				});
 
 				map.setViewport(allpoints);
@@ -105,7 +121,7 @@
 	}
 
    
-   function drawpoint(point,status,name){
+   function drawpoint(point,status,name,reporttime){
 	   
 	    allpoints.push(point);
 	   
@@ -122,7 +138,7 @@
 		var opts = {
 				  width : 100,     // 信息窗口宽度
 				  height: 100,     // 信息窗口高度
-				  title : name , // 信息窗口标题
+				  title : name+" ("+reporttime+")" , // 信息窗口标题
 				  enableMessage:false,//设置允许信息窗发送短息
 				  message:""
 				}
@@ -195,9 +211,7 @@ function open_sp_tip(){
                 dataType: 'json',
                 success:function(data,status)
                 {
-                	//data = $.parseJSON(data);
                 	s = data.success;
-                	alert(s);
                 	if(s){
                 		alert("配送员创建成功");
                 		return;

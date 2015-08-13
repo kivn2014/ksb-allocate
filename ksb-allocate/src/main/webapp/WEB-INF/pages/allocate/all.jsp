@@ -10,7 +10,7 @@
 <meta name="author" content="">
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 
-<title>快送宝 分配运单</title>
+<title>快送宝 订单管理</title>
 <script src="/js/jquery/jquery-2.1.4.min.js"></script>
 <script src="/js/all_base.js"></script>
 <script src="/js/waybill_status.js"></script>

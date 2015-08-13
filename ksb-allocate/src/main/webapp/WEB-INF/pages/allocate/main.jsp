@@ -12,7 +12,7 @@
 <style type="text/css">
 	/* #helpMapDiv{position: fixed;width: 80%;height: 80%;z-index: 10000;top: 10%;left: 10%;display: none;border:0px solid #ddd;opacity: 1;background: #fff} */
 	</style>
-<title>快送宝 分配运单</title>
+<title>快送宝 订单管理</title>
 <link href="/css/order_base.css" rel="stylesheet" type="text/css" id="style_color" />
 <script type="text/javascript"
 	src="http://api.map.baidu.com/api?v=2.0&ak=zNC2uIzYGKnY3V8D7iCBbLsi"></script>

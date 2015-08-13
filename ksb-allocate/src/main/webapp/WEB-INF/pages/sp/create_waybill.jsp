@@ -6,7 +6,7 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <title>快送宝-3公里</title>
+        <title>快送宝-提交新订单</title>
 
         <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -112,6 +112,7 @@
                      style='display: ;'>
                     <table width="100%" cellpadding="0" cellspacing="0">                    
                         <tbody>
+                        
                         <tr>
                             <th>所在城市：</th>
                             <td>
@@ -128,20 +129,29 @@
                                                 <option  value="0755" data-name="深圳市">深圳市</option>
                                             
                                                 <option  value="010" data-name="北京市">北京市</option>
-                                            
                                         </select>
                                     </div>
                                 </div>
                             </td>
                         </tr>
-                        <tr>
+                        <tr><th>商家类型：</th><td><div class="chooseDiv timeBtn" servetype="100">
+                                    <span class="radioSpan cur" id="uzcsj">
+                                        非注册商家
+                                    </span>
+                                    <span class="radioSpan" id="zcsj">
+                                        注册商家
+                                    </span>
+                                 </div></td>
+                        </tr>                        
+                       <!--  <div style="display: none"> -->
+                        <tr style="display: none" id="myspid">
                             <th>商家编号：</th>
                             <td>
                                 <p>
-                                    <input  type="text" placeholder="商家编号" maxlength="20" class="address-info-spid from-address-info-name" value=""/>(选填)
+                                    <input  type="text" placeholder="商家编号" maxlength="20" class="address-info-spid from-address-info-name" value=""/>
                                 </p>
                             </td>
-                        </tr>    
+                        </tr>   
                         <tr>
                             <th>原始订单ID：</th>
                             <td>
@@ -149,16 +159,9 @@
                                     <input  type="text" placeholder="商家订单ID" maxlength="20" class="address-info-originid from-address-info-name" value=""/> (选填)
                                 </p>
                             </td>
-                        </tr>     
-                        <tr>
-                            <th>配送平台ID：</th>
-                            <td>
-                                <p>
-                                    <input  type="text" placeholder="配送平台ID" maxlength="20" class="address-info-psid from-address-info-name" value=""/> (指定配送商)
-                                </p>
-                            </td>
-                        </tr>                                                                  
-                        <tr>
+                        </tr>  
+                            
+                        <tr id="spaddressid">
                             <th>寄件地址：</th>
                             <td>
                                 <div class="address-wrap">
@@ -175,7 +178,7 @@
                             <th>地址详情：</th>
                             <td><input autocomplete="off"  type="text" placeholder="请输入楼号、门牌号等详细地址" class="l address-info-remark from-address-info-remark"  value=""/></td>
                         </tr>
-                        <tr>
+                        <tr id="spnameid">
                             <th>发件人姓名：</th>
                             <td>
                                 <p>
@@ -183,12 +186,29 @@
                                 </p>
                             </td>
                         </tr>
-                        <tr>
+                        <tr id="spphoneid">
                             <th>手机号：</th>
                             <td>
                                 <p><input  type="text" placeholder="请输入联系人手机号" class="address-info-phone from-address-info-phone" value="" maxlength="11"/></p>
                             </td>
                         </tr>
+                        <tr><th>配送方式：</th><td><div class="chooseDiv timeBtn" servetype="100">
+                                    <span class="radioSpan cur" id="autops">
+                                        自动分配
+                                    </span>
+                                    <span class="radioSpan" id="zdps">
+                                        指定配送商
+                                    </span>
+                                 </div></td>
+                        </tr>   
+                        <tr style="display: none" id="pssid">
+                            <th>配送商ID：</th>
+                            <td>
+                                <p>
+                                    <input  type="text" placeholder="配送商ID" maxlength="20" class="address-info-psid from-address-info-name" value=""/> (指定配送商)
+                                </p>
+                            </td>
+                        </tr>                                                
                         </tbody>
                     </table>
                 </div>

@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>快送宝 订单分配系统</title>
+    <title>快送宝 订单管理系统</title>
 
     <!-- Bootstrap core CSS -->
     <!-- <link href="${pageContext.request.contextPath}/css/bootstrap/bootstrap.min.css" rel="stylesheet"> -->

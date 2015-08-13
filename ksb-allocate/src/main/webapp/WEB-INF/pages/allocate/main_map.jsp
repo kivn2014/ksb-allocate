@@ -10,7 +10,7 @@
 <meta name="author" content="">
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 
-<title>快送宝 分配运单</title>
+<title>快送宝 订单管理</title>
 <script type="text/javascript"
 	src="http://api.map.baidu.com/api?v=2.0&ak=zNC2uIzYGKnY3V8D7iCBbLsi"></script>
 <script type="text/javascript"

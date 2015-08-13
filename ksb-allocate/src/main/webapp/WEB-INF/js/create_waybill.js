@@ -48,6 +48,42 @@ $(function() {
 		$("#booking_date").empty();
 		$("#booking_time").val("");
 	});
+
+	
+	/*非注册商家(需要显示能输入完整的商家信息)*/
+	$("#uzcsj").on("click", function() {
+		$("#myspid").hide();
+		
+		$("#spaddressid").show();
+		$("#spnameid").show();
+		$("#spphoneid").show();
+	});
+	
+	/*注册商家(选择注册商家 仅显示输入商家编号)*/
+	$("#zcsj").on("click", function() {
+		
+		$("#myspid").show();
+		
+		$("#spaddressid").hide();
+		$("#spnameid").hide();
+		$("#spphoneid").hide();
+		
+	});	
+	
+	/*自动配送(又快送宝指定配送企业)*/
+	$("#autops").on("click", function() {
+		
+		$("#pssid").hide();
+		
+	});		
+	
+	/*客户自行选择配送商*/
+	$("#zdps").on("click", function() {
+		
+		$("#pssid").show();
+		
+	});		
+	
 	
 //	$("#appointmentTimePicker").on("change", function() {
 //		if (!checkAppointmentTime()) {
